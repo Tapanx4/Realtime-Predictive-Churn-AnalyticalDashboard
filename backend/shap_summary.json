@@ -1,0 +1,42 @@
+[
+    {
+        "feature": "Contract_Month-to-month",
+        "importance": 0.904044508934021
+    },
+    {
+        "feature": "tenure",
+        "importance": 0.8558627367019653
+    },
+    {
+        "feature": "MonthlyCharges",
+        "importance": 0.5541956424713135
+    },
+    {
+        "feature": "TotalCharges",
+        "importance": 0.330131858587265
+    },
+    {
+        "feature": "Contract_Two year",
+        "importance": 0.26400992274284363
+    },
+    {
+        "feature": "OnlineSecurity_No",
+        "importance": 0.2556411325931549
+    },
+    {
+        "feature": "TechSupport_No",
+        "importance": 0.20346859097480774
+    },
+    {
+        "feature": "InternetService_Fiber optic",
+        "importance": 0.18923641741275787
+    },
+    {
+        "feature": "PaymentMethod_Electronic check",
+        "importance": 0.16010160744190216
+    },
+    {
+        "feature": "MultipleLines_No",
+        "importance": 0.13567613065242767
+    }
+]

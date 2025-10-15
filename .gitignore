@@ -1,0 +1,104 @@
+# ===================================================================
+# General
+# ===================================================================
+
+# Sensitive Information - CRITICAL
+# Ignore environment files. A template file (e.g., .env.example) SHOULD be committed instead.
+.env
+.env.*
+!.env.example
+
+# Ignore SSL certificates and keys used for Kafka/Aiven
+ca.pem
+service.cert
+service.key
+
+
+# ===================================================================
+# Frontend (React)
+# ===================================================================
+
+# Dependencies
+/frontend/node_modules
+/frontend/.pnp
+.pnp.js
+
+# Build output
+/frontend/build
+/frontend/dist
+
+# Logs
+/frontend/npm-debug.log*
+/frontend/yarn-debug.log*
+/frontend/yarn-error.log*
+/frontend/pnpm-debug.log*
+
+# Local configuration
+/frontend/.env.local
+/frontend/.env.development.local
+/frontend/.env.test.local
+/frontend/.env.production.local
+
+
+# ===================================================================
+# Backend (Python / FastAPI)
+# ===================================================================
+
+# Virtual Environments
+/backend/venv
+/backend/.venv
+/backend/env
+/backend/.env
+
+# Python cache
+/backend/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Testing
+/backend/.pytest_cache/
+/backend/.coverage
+
+
+# ===================================================================
+# Machine Learning Artifacts (Optional but Recommended)
+# ===================================================================
+
+# It's good practice to ignore large data files and trained models.
+# Keep them in cloud storage (like S3) or a data versioning tool (like DVC).
+# Uncomment the lines that apply to your project.
+
+# /ml_model/*.csv
+# /ml_model/*.pkl
+# /ml_model/*.joblib
+# /ml_model/*.h5
+
+
+# ===================================================================
+# IDE & Editor Config
+# ===================================================================
+
+# VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+
+# JetBrains (PyCharm, WebStorm, etc.)
+.idea/
+
+
+# ===================================================================
+# Operating System Files
+# ===================================================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
