@@ -1,43 +1,82 @@
+import asyncio
+from contextlib import asynccontextmanager
+import json
+import joblib
+import os
+from dotenv import load_dotenv
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Query
 from fastapi.middleware.cors import CORSMiddleware
-import uvicorn
-import json
-from datetime import datetime, timedelta
 import psycopg2
 from psycopg2.extras import RealDictCursor
-from dotenv import load_dotenv
-import os
 from typing import List, Optional
 
+# Import the functions from your newly created processor.py file
+from processor import (
+    create_kafka_consumer,
+    process_stream,
+    get_db_connection
+)
+
+# Load environment variables from the root .env file
 load_dotenv(dotenv_path='../.env')
-app = FastAPI()
+
+# --- Background Task for Kafka Consumer ---
+async def run_kafka_consumer_task():
+    """
+    A wrapper function to run the blocking Kafka consumer in the background.
+    """
+    print("BACKGROUND_TASK: Initializing...")
+    
+    # Load model and DB connection for the consumer
+    model_path = os.getenv("MODEL_PATH", "../ml_model/churn_model_xgb.pkl")
+    model = joblib.load(model_path)
+    db_conn = get_db_connection()
+    
+    KAFKA_URI = os.getenv("AIVEN_KAFKA_URI")
+    KAFKA_TOPIC = os.getenv("KAFKA_TOPIC", "user_events_topic")
+
+    if not all([KAFKA_URI, KAFKA_TOPIC, model, db_conn]):
+        print("BACKGROUND_TASK: ERROR - Missing configuration. Consumer will not start.")
+        return
+
+    consumer = create_kafka_consumer(KAFKA_URI, KAFKA_TOPIC)
+    
+    loop = asyncio.get_running_loop()
+    print("BACKGROUND_TASK: Starting process_stream in a separate thread.")
+    await loop.run_in_executor(None, process_stream, consumer, model, db_conn)
+
+# --- FastAPI Lifespan Manager ---
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # This code runs on application startup
+    print("API_LIFESPAN: Startup detected. Starting Kafka consumer as a background task...")
+    asyncio.create_task(run_kafka_consumer_task())
+    yield
+    # This code runs on application shutdown
+    print("API_LIFESPAN: Shutdown detected.")
+
+# --- Initialize FastAPI App ---
+app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"], # In production, restrict this to your Vercel URL
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-def get_db_connection():
-    POSTGRES_URI = os.getenv("POSTGRES_URI")
-    if not POSTGRES_URI: raise ValueError("POSTGRES_URI not found.")
-    return psycopg2.connect(POSTGRES_URI)
-
 # --- WebSocket Connection Manager ---
 class ConnectionManager:
+    # ... (Your ConnectionManager class code)
     def __init__(self):
         self.active_connections: list[WebSocket] = []
-
     async def connect(self, websocket: WebSocket):
         await websocket.accept()
         self.active_connections.append(websocket)
-
     def disconnect(self, websocket: WebSocket):
         self.active_connections.remove(websocket)
-
     async def broadcast(self, message: str):
         for connection in self.active_connections:
             await connection.send_text(message)

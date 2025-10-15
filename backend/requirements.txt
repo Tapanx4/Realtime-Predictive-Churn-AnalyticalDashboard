@@ -1,3 +1,11 @@
 fastapi
-uvicorn
-python-multipart
+uvicorn[standard]
+pandas
+psycopg2-binary
+python-dotenv
+requests
+kafka-python
+scikit-learn
+xgboost
+pytz
+joblib
