@@ -1,5 +1,9 @@
 # ChurnPredictionDashboard
+## **[Live Demo](## **[Live Demo](https://YOUR-PROJECT-NAME.vercel.app) | [GitHub Repository](https://github.com/Tapanx4/Realtime-Predictive-Churn-AnalyticalDashboard)**
 
+---) | [GitHub Repository](https://github.com/YOUR_USERNAME/YOUR_REPO_NAME)**
+
+---
 
 An end-to-end, full-stack application designed to predict and visualize customer churn in real-time. This platform leverages a machine learning model and a live data pipeline to provide proactive, actionable insights, empowering businesses to identify and retain at-risk customers before they leave.
 
