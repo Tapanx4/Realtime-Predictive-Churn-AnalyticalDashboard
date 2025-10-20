@@ -20,7 +20,7 @@ from processor import (
 
 # Load environment variables from the root .env file
 load_dotenv(dotenv_path='../.env')
-
+print("--- SERVER STARTING: VERSION 2 (with specific CORS origins) ---")
 # --- Background Task for Kafka Consumer ---
 async def run_kafka_consumer_task():
     """
