@@ -20,7 +20,7 @@ from processor import (
 
 # Load environment variables from the root .env file
 load_dotenv(dotenv_path='../.env')
-print("--- SERVER STARTING: VERSION 2 (with specific CORS origins) ---")
+
 # --- Background Task for Kafka Consumer ---
 async def run_kafka_consumer_task():
     """
@@ -86,6 +86,24 @@ class ConnectionManager:
             await connection.send_text(message)
 
 manager = ConnectionManager()
+from fastapi import FastAPI, Response 
+
+# ... (keep all your other code)
+
+# --- NEW: Add this diagnostic endpoint ---
+@app.get("/api/test-cors")
+async def test_cors_endpoint():
+    """
+    A simple endpoint to manually return a CORS header for testing.
+    """
+    content = {"message": "CORS test successful"}
+    
+    # Manually create a response and add the header
+    response = Response(content=json.dumps(content), media_type="application/json")
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    
+    print("--- Fired /api/test-cors endpoint with manual header ---")
+    return response
 
 @app.websocket("/ws/updates")
 async def websocket_endpoint(websocket: WebSocket):
