@@ -58,10 +58,13 @@ async def lifespan(app: FastAPI):
 
 # --- Initialize FastAPI App ---
 app = FastAPI(lifespan=lifespan)
-
+origins = [
+    "https://realtime-predictive-churn-analytical-dashboard-ol3mlsdh6.vercel.app",
+    "http://localhost:3000", # It's good practice to keep this for local development
+]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # In production, restrict this to your Vercel URL
+    allow_origins=origins, # In production, restrict this to your Vercel URL
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
