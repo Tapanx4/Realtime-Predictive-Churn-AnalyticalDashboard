@@ -30,7 +30,7 @@ const Watchlist = () => {
                 filters.risk.forEach(r => params.append('risk', r));
                 filters.contract.forEach(c => params.append('contract', c));
 
-                const response = await fetch(`http://localhost:8000/api/watchlist?${params.toString()}`);
+                const response = await fetch(`${API_URL}/api/watchlist?${params.toString()}`);
                 if (!response.ok) throw new Error('Network response was not ok');
                 const result = await response.json();
                 if (result.error) throw new Error(result.error);

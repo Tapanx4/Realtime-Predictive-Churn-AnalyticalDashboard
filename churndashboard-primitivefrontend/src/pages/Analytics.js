@@ -25,10 +25,10 @@ const Analytics = () => {
     const [alertsHistory, setAlertsHistory] = useState([]);
     const [shapData, setShapData] = useState([]);
     const { highRiskAlert, wsStatus } = useWebSocket();
-
+    const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
     // Fetch initial history of customer alerts
     useEffect(() => {
-        fetch('http://localhost:8000/api/churn-alerts-history', { cache: 'no-store' })
+        fetch(`${API_URL}/api/churn-alerts-history`, { cache: 'no-store' })
         .then(res => res.json())
         .then(data => setAlertsHistory(data))
         .catch(err => console.error("Error fetching alerts:", err));
@@ -37,7 +37,7 @@ const Analytics = () => {
     // Fetch SHAP data periodically
     useEffect(() => {
         const fetchShapData = () => {
-            fetch('http://localhost:8000/api/shap-summary', { cache: 'no-store' })
+            fetch(`${API_URL}/api/shap-summary`, { cache: 'no-store' })
                 .then(res => res.json())
                 .then(data => setShapData(data))
                 .catch(err => console.error("Error fetching SHAP data:", err));

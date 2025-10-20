@@ -15,7 +15,7 @@ const LiveFeed = () => {
     useEffect(() => {
         const fetchHistory = async () => {
             try {
-                const response = await fetch('http://localhost:8000/api/events/history?limit=50');
+                const response = await fetch(`${API_URL}/api/events/history?limit=50`);
                 if (!response.ok) throw new Error('Failed to fetch history');
                 
                 const historyData = await response.json();

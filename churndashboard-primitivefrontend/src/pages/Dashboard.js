@@ -11,12 +11,12 @@ const Dashboard = () => {
   const [kpis, setKpis] = useState(null);
   const [loading, setLoading] = useState(true);
   const { highRiskAlert, wsStatus } = useWebSocket();
-
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await fetch('http://localhost:8000/api/dashboard-kpis');
+        const response = await fetch(`${API_URL}/api/dashboard-kpis`);
         if (!response.ok) {
           throw new Error('Failed to fetch dashboard KPIs');
         }

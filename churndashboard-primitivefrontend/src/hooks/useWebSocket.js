@@ -6,7 +6,12 @@ export const useWebSocket = () => {
   const [wsStatus, setWsStatus] = useState('Connecting...');
 
   useEffect(() => {
-    const ws = new WebSocket('ws://localhost:8000/ws/updates');
+    // Get the base API URL from the environment variable
+const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+// Convert the http URL to a ws URL
+const wsUrl = apiUrl.replace(/^http/, 'ws');
+
+const ws = new WebSocket(`${wsUrl}/ws/updates`);
     ws.onopen = () => setWsStatus('Connected');
     ws.onclose = () => setWsStatus('Disconnected');
     ws.onerror = () => setWsStatus('Error');

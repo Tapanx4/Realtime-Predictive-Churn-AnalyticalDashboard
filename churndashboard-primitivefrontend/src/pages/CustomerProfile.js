@@ -13,12 +13,12 @@ const CustomerProfile = () => {
     const [customerData, setCustomerData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
+    const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
     useEffect(() => {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const response = await fetch(`http://localhost:8000/api/customer/${customerId}`);
+                const response = await fetch(`${API_URL}/api/customer/${customerId}`);
                 const data = await response.json();
                 if (data.error) throw new Error(data.error);
                 setCustomerData(data);
