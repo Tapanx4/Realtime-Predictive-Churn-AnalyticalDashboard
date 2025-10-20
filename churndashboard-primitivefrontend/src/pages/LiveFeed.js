@@ -8,7 +8,7 @@ import KpiCard from '../components/dashboard/KpiCard';
 const LiveFeed = () => {
     const [events, setEvents] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    
+    const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
     const { liveEvent, highRiskAlert } = useWebSocket();
 
     // --- Fetch historical events on initial component load ---
