@@ -59,9 +59,7 @@ async def lifespan(app: FastAPI):
 # --- Initialize FastAPI App ---
 app = FastAPI(lifespan=lifespan)
 origins = [
-    "https://realtime-predictive-churn-analytical-dashboard-g5gigrp6b.vercel.app",
-    "https://realtime-predictive-churn-analytic-git-a5831d-tapanx4s-projects.vercel.app",    
-    "https://realtime-predictive-churn-analytical-dashboard-fw5ib0wm7.vercel.app",
+    "https://realtime-predictive-churn-analytica.vercel.app"
     "http://localhost:3000", # It's good practice to keep this for local development
 ]
 app.add_middleware(
